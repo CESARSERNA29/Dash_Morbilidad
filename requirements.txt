@@ -1,7 +1,6 @@
 folium==0.14.0
 streamlit-folium==0.15.0
 Markdown==3.6.0
-markdown-it-py==2.2.0
 MarkupSafe==2.1.2
 matplotlib
 numerize==0.12
@@ -16,11 +15,9 @@ streamlit-apexjs==0.0.3
 streamlit-card==0.0.4
 streamlit-elements==0.1.0
 streamlit-option-menu==0.3.2
-streamlit-pandas-profiling
+ydata-profiling
 streamlit-extras
-streamlit-card==0.0.4
 plotly
-plotly-express
 scikit-learn
 seaborn
 scipy
