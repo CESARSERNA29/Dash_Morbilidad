@@ -65,6 +65,35 @@ df = pd.read_excel('data.xlsx', sheet_name='Sheet1')
 
 
 
+def safe_numerize(value):
+    """Convierte un valor a formato numerize de forma segura"""
+    try:
+        # Manejar valores None o vacíos
+        if value is None:
+            return "0"
+        
+        # Convertir a string y limpiar
+        str_value = str(value).strip().lower()
+        if str_value in ['', 'nan', 'none', 'null']:
+            return "0"
+        
+        # Convertir a número
+        num_value = float(value)
+        
+        # Verificar si es NaN
+        if num_value != num_value:  # NaN check sin pandas
+            return "0"
+        
+        # Aplicar numerize
+        return numerize(int(num_value))
+        
+    except (ValueError, TypeError, AttributeError):
+        return "0"
+
+
+# =============================================
+
+
 
 
 with st.expander("📌 Mostrar Filtros", expanded=False):
@@ -134,8 +163,10 @@ def Home():
         #st.metric(label="Rating", value=numerize(rating) if rating and not pd.isna(rating) else "0",
         #          help=f""" Total Rating: {rating if rating and not pd.isna(rating) else 0} """)
         
-        st.metric(label="Rating", value=numerize(rating) if rating is not None and rating != "" and str(rating) != 'nan' else "0", 
-                  help=f""" Total Rating: {rating if rating is not None else 0} """)
+        #st.metric(label="Rating", value=numerize(rating) if rating is not None and rating != "" and str(rating) != 'nan' else "0", 
+        #          help=f""" Total Rating: {rating if rating is not None else 0} """)
+        
+        st.metric(label="Rating", value=safe_numerize(rating), help=f""" Total Rating: {rating if rating is not None else 0} """ )
         
     style_metric_cards(background_color="#FFFFFF",border_left_color="#686664",border_color="#000000",box_shadow="#F71938")
 
