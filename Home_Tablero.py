@@ -1,5 +1,12 @@
 
 # Cargando las Librerías:
+    
+import streamlit as st
+import pandas as pd
+from ydata_profiling import ProfileReport
+import streamlit.components.v1 as components
+
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
