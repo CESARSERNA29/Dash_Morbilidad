@@ -264,8 +264,8 @@ def sideBar():
     graphs()
 
 sideBar()
-st.sidebar.image("data/Logo_UNILLANOS.png",caption="")      # LOGO
-
+#st.sidebar.image("data/Logo_UNILLANOS.png",caption="")      # LOGO
+st.sidebar.image("Logo_UNILLANOS.png",caption="")      # LOGO
 
 
 
