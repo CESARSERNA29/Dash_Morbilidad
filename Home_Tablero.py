@@ -130,7 +130,10 @@ def Home():
 
     with total5:
         st.info('Ratings',icon="💷")
-        st.metric(label="Rating",value=numerize(rating),help=f""" Total Rating: {rating} """)
+        #st.metric(label="Rating",value=numerize(rating),help=f""" Total Rating: {rating} """)
+        st.metric(label="Rating", value=numerize(rating) if rating and not pd.isna(rating) else "0",
+                  help=f""" Total Rating: {rating if rating and not pd.isna(rating) else 0} """
+)
     style_metric_cards(background_color="#FFFFFF",border_left_color="#686664",border_color="#000000",box_shadow="#F71938")
 
     #variable distribution Histogram   # ERROR 1
