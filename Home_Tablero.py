@@ -19,11 +19,12 @@ from streamlit_extras.metric_cards import style_metric_cards
 # st.set_option('deprecation.showPyplotGlobalUse', False)
 import plotly.graph_objs as go
 
+
 # Descomenta esta línea si usas MySQL:
 # from query import *
 
 st.set_page_config(page_title="Dashboard",page_icon="🌍",layout="wide")
-st.header("Tratamiento Estadístico, KPI, Tendencias y Predicciones")
+st.header("MORBILIDAD:  Tratamiento Estadístico, KPI y Tendencias")
 
 # Todos los gráficos se personalizan usando CSS , no Streamlit. 
 theme_plotly = None 
@@ -38,30 +39,12 @@ with open('style.css')as f:
 # df=pd.DataFrame(result,columns=["Policy","Expiry","Location","State","Region","Investment","Construction","BusinessType","Earthquake","Flood","Rating","id"])
 
 # cargar archivo Excel | comente esta línea cuando obtenga datos de MySQL:
-df = pd.read_excel('data.xlsx', sheet_name='Sheet1')
+
+# df = pd.read_excel("C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tasas_Morbilidad_500.xlsx", sheet_name='Hoja1')
+df = pd.read_excel('Tasas_Morbilidad_500.xlsx', sheet_name='Hoja1')
 
 
 # ======================================================================
-# logotipo de la barra lateral
-
-
-#switcher
-
-# region=st.sidebar.multiselect(
-#    "SELECT REGION",
-#     options=df["Region"].unique(),
-#     default=df["Region"].unique(),
-#)
-#location=st.sidebar.multiselect(
-#    "SELECT LOCATION",
-#     options=df["Location"].unique(),
-#     default=df["Location"].unique(),
-#)
-#construction=st.sidebar.multiselect(
-#    "SELECT CONSTRUCTION",
-#     options=df["Construction"].unique(),
-#     default=df["Construction"].unique(),
-#)
 
 
 
@@ -93,26 +76,36 @@ def safe_numerize(value):
 
 # =============================================
 
+# 📍 📎 🗺️ 🎯 🔗 ⚓ 🏠 🏢 🏭 🏬
+# 🏷️ 🔖 📋 📝 📄 📊 📈 📉 🗂️ 📁
+# 🔧 🔨 ⚙️ 🛠️ ⚡ 🔧 🗝️ 🔑 🎛️ ⚖️
+#  ⚠️ ❗ ❓ ✅ ❌ 🟢 🔴 🟡 🟠 🔵
+# 👆 👇 👈 👉 ↗️ ↘️ ↙️ ↖️ ⬆️ ⬇️ ⬅️ ➡️
+# 💡 🔍 🎲 🎯 🎪 🎨 🎭 🎪 🎊 🎉
+# 📊 📈 📉 💹 📋 🗃️ 🗄️ 💾 💿 📀
+# 🏥 ⚕️ 💊 🩺 🧬 🦠 💉 🧪 🔬 📱
+
+# =============================================
 
 
 
-with st.expander("📌 Mostrar Filtros", expanded=False):
-    region = st.multiselect(
+with st.expander("👉 Mostrar Filtros", expanded=False):
+    Region = st.multiselect(
         "Selecciona Región",
-        options=df["Region"].unique(),
-        default=df["Region"].unique(),
+        options=df["region"].unique(),
+        default=df["region"].unique(),
     )
 
-    location = st.multiselect(
-        "Selecciona Ubicación",
-        options=df["Location"].unique(),
-        default=df["Location"].unique(),
+    Municipio = st.multiselect(
+        "Selecciona Municipio",
+        options=df["municipio"].unique(),
+        default=df["municipio"].unique(),
     )
 
-    construction = st.multiselect(
-        "Selecciona Tipo de Construcción",
-        options=df["Construction"].unique(),
-        default=df["Construction"].unique(),
+    Grupo = st.multiselect(
+        "Selecciona el Grupo de Enfermedad",
+        options=df["grupo"].unique(),
+        default=df["grupo"].unique(),
     )
 
 
@@ -123,42 +116,43 @@ with st.expander("📌 Mostrar Filtros", expanded=False):
 
 
 df_selection=df.query(
-    "Region==@region & Location==@location & Construction ==@construction"
+    "region==@Region & municipio==@Municipio & grupo ==@Grupo"
 )
+
 
 
 # Esta función realiza análisis descriptivos básicos como media, moda, suma, etc.
 def Home():
     with st.expander("Ver el Conjunto de Datos en Excel"):
-        showData=st.multiselect('Filter: ',df_selection.columns,default=["Policy","Expiry","Location","State","Region","Investment","Construction","BusinessType","Earthquake","Flood","Rating"])
+        showData=st.multiselect('Filter: ',df_selection.columns,default=["anio", "psss", "sexo", "nombre_cat_edad", "rango_edad", "departamento", "region", "id_mpio	municipio", "cie10", "componente", "capitulo", "grupo", "Enfermedad_Evento", "cant	pob10", "tasa_morb"])
         st.dataframe(df_selection[showData],use_container_width=True)
     # calcular los análisis:
-    total_investment = float(pd.Series(df_selection['Investment']).sum())
-    investment_mode = float(pd.Series(df_selection['Investment']).mode())
-    investment_mean = float(pd.Series(df_selection['Investment']).mean())
-    investment_median= float(pd.Series(df_selection['Investment']).median()) 
-    rating = float(pd.Series(df_selection['Rating']).sum())
+    total_investment = float(pd.Series(df_selection['cant']).sum())
+    investment_mode = float(pd.Series(df_selection['tasa_morb']).mode())
+    investment_mean = float(pd.Series(df_selection['tasa_morb']).mean())
+    investment_median= float(pd.Series(df_selection['tasa_morb']).median()) 
+    rating = float(pd.Series(df_selection['pob10']).sum())
 
 
     total1,total2,total3,total4,total5=st.columns(5,gap='small')
     with total1:
-        st.info('Tot. Inversión',icon="💴")
-        st.metric(label="Suma TZS",value=f"{total_investment:,.0f}")
+        st.info('Tot. Casos',icon="🎯")
+        st.metric(label="Suma Casos",value=f"{total_investment:,.0f}")
 
     with total2:
-        st.info('Mayor Inversión',icon="💵")
-        st.metric(label="Moda TZS",value=f"{investment_mode:,.0f}")
+        st.info('Moda Tasa Morbilidad',icon="🎯")
+        st.metric(label="Moda Morbilid.",value=f"{investment_mode:,.0f}")
 
     with total3:
-        st.info('Promedio',icon="💶")
-        st.metric(label="Promedio TZS",value=f"{investment_mean:,.0f}")
+        st.info('Promedio Tasa Morbilidad',icon="🎯")
+        st.metric(label="Promedio Morbilid.",value=f"{investment_mean:,.0f}")
 
     with total4:
-        st.info('Ganan. Princip.',icon="💷")
-        st.metric(label="Mediana TZS",value=f"{investment_median:,.0f}")
+        st.info('Mediana Tasa Morbilidad',icon="🎯")
+        st.metric(label="Mediana Morbilid.",value=f"{investment_median:,.0f}")
 
     with total5:
-        st.info('Ratings',icon="💷")
+        st.info('Proyección Poblacional',icon="🎯")
         #st.metric(label="Rating",value=numerize(rating),help=f""" Total Rating: {rating} """)
         #st.metric(label="Rating", value=numerize(rating) if rating and not pd.isna(rating) else "0",
         #          help=f""" Total Rating: {rating if rating and not pd.isna(rating) else 0} """)
@@ -166,13 +160,13 @@ def Home():
         #st.metric(label="Rating", value=numerize(rating) if rating is not None and rating != "" and str(rating) != 'nan' else "0", 
         #          help=f""" Total Rating: {rating if rating is not None else 0} """)
         
-        st.metric(label="Rating", value=safe_numerize(rating), help=f""" Total Rating: {rating if rating is not None else 0} """ )
+        st.metric(label="Proy. Pobl.", value=safe_numerize(rating), help=f""" Proyección poblacional por cada 10 mil """ )
         
     style_metric_cards(background_color="#FFFFFF",border_left_color="#686664",border_color="#000000",box_shadow="#F71938")
 
     #variable distribution Histogram   # ERROR 1
-    with st.expander("Distribución de Frecuencias"):
-     df.hist(figsize=(16,8),color='#898784', zorder=2, rwidth=0.9,legend = ['Investment']);
+    with st.expander("Distribución de Frecuencias - Tasa Morbilidad"):
+     df.hist(figsize=(16,8),color='#898784', zorder=2, rwidth=0.9,legend = ['tasa_morb']);
      st.pyplot()
 
 #graphs
@@ -181,14 +175,14 @@ def graphs():
     #averageRating=int(round(df_selection["Rating"]).mean(),2) 
     #Gráfico de barras simple de inversión por tipo de negocio
     investment_by_business_type=(
-        df_selection.groupby(by=["BusinessType"]).count()[["Investment"]].sort_values(by="Investment")
+        df_selection.groupby(by=["anio"]).count()[["tasa_morb"]].sort_values(by="tasa_morb")
     )
     fig_investment=px.bar(
        investment_by_business_type,
-       x="Investment",
+       x="anio",
        y=investment_by_business_type.index,
        orientation="h",
-       title="<b> INVERSIÓN POR TIPO DE NEGOCIO </b>",
+       title="<b> TASA DE MORBILIDAD POR AÑO </b>",
        color_discrete_sequence=["#0083B8"]*len(investment_by_business_type),
        template="plotly_white",
     )
@@ -201,13 +195,13 @@ def graphs():
      )
 
     #gráfico de regresión lineal simple de inversión por estado
-    investment_state=df_selection.groupby(by=["State"]).count()[["Investment"]]
+    investment_state=df_selection.groupby(by=["nombre_cat_edad"]).count()[["tasa_morb"]]
     fig_state=px.line(
        investment_state,
        x=investment_state.index,
-       y="Investment",
+       y="nombre_cat_edad",
        orientation="v",
-       title="<b> INVERSIÓN POR ESTADO </b>",
+       title="<b> TASA DE MORBILIDAD POR CATEGORÍA DE EDADES </b>",
        color_discrete_sequence=["#0083b8"]*len(investment_state),
        template="plotly_white",
     )
@@ -223,10 +217,14 @@ def graphs():
     
     with center:
       #pie chart
-      fig = px.pie(df_selection, values='Rating', names='State', title="<b> RATINGS POR REGIONES </b>")
-      fig.update_layout(legend_title="Regions", legend_y=0.9)
+      fig = px.pie(df_selection, values='tasa_morb', names='departamento', title="<b> TASA  MORBILIDAD POR DEPARTAMENTO </b>")
+      fig.update_layout(legend_title="Dptos.", legend_y=0.9)
       fig.update_traces(textinfo='percent+label', textposition='inside')
       st.plotly_chart(fig, use_container_width=True, theme=theme_plotly)
+
+
+
+
 
 # función para mostrar las ganancias actuales frente al objetivo esperado
 def Progressbar():
@@ -263,19 +261,20 @@ def sideBar():
     Progressbar()
     graphs()
 
+
 sideBar()
 #st.sidebar.image("data/Logo_UNILLANOS.png",caption="")      # LOGO
-st.sidebar.image("Logo_UNILLANOS.png",caption="")      # LOGO
+st.sidebar.image("Logo_UNILLANOS.png",caption="")            # LOGO
 
 
 
-st.subheader('Seleccione Atributos Para Observar Tendencias de Distrib. Por Cuartiles',)
+st.subheader('Seleccione Atributos para Observar Tendencias de Distrib. Por Cuartiles',)
 #feature_x = st.selectbox('Select feature for x Qualitative data', df_selection.select_dtypes("object").columns)
 feature_y = st.selectbox('Seleccionar función para (Y) Datos cuantitativos', df_selection.select_dtypes("number").columns)
 fig2 = go.Figure(
-    data=[go.Box(x=df['BusinessType'], y=df[feature_y])],
+    data=[go.Box(x=df['grupo'], y=df[feature_y])],
     layout=go.Layout(
-        title=go.layout.Title(text="Tipo de Negocio, por Cuartil de Inversión"),
+        title=go.layout.Title(text="Distribución Numérica, por Grupo de Enfermedades"),
         plot_bgcolor='rgba(0, 0, 0, 0)',  # Set plot background color to transparent
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set paper background color to transparent
         xaxis=dict(showgrid=True, gridcolor='#cecdcd'),  # Show x-axis grid and set its color
