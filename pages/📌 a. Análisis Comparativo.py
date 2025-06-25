@@ -49,11 +49,11 @@ cumulative_relative_frequency=relative_frequency.cumsum()
 
 #create summarized table
 summary_table=pd.DataFrame({
-  'Frequency':frequency,
-  'Percentage Frequency':percentage_frequency,
-  'Cumulative Frequency':cumulative_frequency,
-  'Relative Frequency':relative_frequency,
-  'Cumulative Relative Frequency':cumulative_relative_frequency
+  'Freq.':frequency,
+  '% Freq.':percentage_frequency,
+  'Freq. Acum.':cumulative_frequency,
+  'Freq. Relat.':relative_frequency,
+  'Freq. Relat. Acum.':cumulative_relative_frequency
 
  }
 )
