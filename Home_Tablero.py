@@ -36,12 +36,12 @@ with open('style.css')as f:
 
 # Descomenta estas dos líneas si obtienes datos de MySQL:
 # result = view_all_data()
-# df=pd.DataFrame(result,columns=["Policy","Expiry","Location","State","Region","Investment","Construction","BusinessType","Earthquake","Flood","Rating","id"])
+# df=pd.DataFrame(result,columns=["Policy","Expiry","Location","State","Investment","Construction","BusinessType","Earthquake","Flood","Rating","id"])
 
 # cargar archivo Excel | comente esta línea cuando obtenga datos de MySQL:
 
-# df = pd.read_excel("C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tasas_Morbilidad_500.xlsx", sheet_name='Hoja1')
-df = pd.read_excel('Tasas_Morbilidad_500.xlsx', sheet_name='Hoja1')
+# df = pd.read_excel("C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tasas_Morbilidad.xlsx", sheet_name='Hoja1')
+df = pd.read_excel('Tasas_Morbilidad.xlsx', sheet_name='Hoja1')
 
 
 # ======================================================================
@@ -90,10 +90,10 @@ def safe_numerize(value):
 
 
 with st.expander("👉 Mostrar Filtros", expanded=False):
-    Region = st.multiselect(
-        "Selecciona Región",
-        options=df["region"].unique(),
-        default=df["region"].unique(),
+    Departamento = st.multiselect(
+        "Selecciona Departamento",
+        options=df["departamento"].unique(),
+        default=df["departamento"].unique(),
     )
 
     Municipio = st.multiselect(
@@ -116,7 +116,7 @@ with st.expander("👉 Mostrar Filtros", expanded=False):
 
 
 df_selection=df.query(
-    "region==@Region & municipio==@Municipio & grupo ==@Grupo"
+    "departamento==@Departamento & municipio==@Municipio & grupo ==@Grupo"
 )
 
 
@@ -124,7 +124,7 @@ df_selection=df.query(
 # Esta función realiza análisis descriptivos básicos como media, moda, suma, etc.
 def Home():
     with st.expander("Ver el Conjunto de Datos en Excel"):
-        showData=st.multiselect('Filter: ',df_selection.columns,default=["anio", "psss", "sexo", "nombre_cat_edad", "rango_edad", "departamento", "region", "id_mpio	municipio", "cie10", "componente", "capitulo", "grupo", "Enfermedad_Evento", "cant	pob10", "tasa_morb"])
+        showData=st.multiselect('Filter: ',df_selection.columns,default=["anio", "sexo", "nombre_cat_edad", "rango_edad", "departamento", "municipio", "componente", "capitulo", "grupo", "Enfermedad_Evento", "cant	pob10", "tasa_morb"])
         st.dataframe(df_selection[showData],use_container_width=True)
     # calcular los análisis:
     total_investment = float(pd.Series(df_selection['cant']).sum())
