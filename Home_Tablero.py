@@ -127,7 +127,7 @@ def Home():
         showData=st.multiselect('Filter: ',df_selection.columns,default=["anio", "sexo", "nombre_cat_edad", "departamento", "municipio", "componente", "capitulo", "grupo", "Enfermedad_Evento", "pob10", "tasa_morb", "Tot_Eventos"])
         st.dataframe(df_selection[showData],use_container_width=True)
     # calcular los análisis:
-    total_investment = float(pd.Series(df_selection['cant']).sum())
+    total_investment = float(pd.Series(df_selection['Tot_Eventos']).sum())
     investment_mode = float(pd.Series(df_selection['tasa_morb']).mode())
     investment_mean = float(pd.Series(df_selection['tasa_morb']).mean())
     investment_median= float(pd.Series(df_selection['tasa_morb']).median()) 
