@@ -36,13 +36,13 @@ st.sidebar.image("data/logo1.png")
 frequency=df.nombre_cat_edad.value_counts().sort_index()
 
 #calculate percentage frequency %
-percentage_frequency=frequency/len(df.UnitPrice)*100
+percentage_frequency=frequency/len(df.nombre_cat_edad)*100
 
 #calculate cumulative frequency
 cumulative_frequency=frequency.cumsum()
 
 #relative frequency
-relative_frequency=frequency/len(df.UnitPrice)
+relative_frequency=frequency/len(df.nombre_cat_edad)
 
 #cumulative relative frequency
 cumulative_relative_frequency=relative_frequency.cumsum()
