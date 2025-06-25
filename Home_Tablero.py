@@ -204,7 +204,11 @@ def graphs():
     
     # gráfico de regresión lineal simple de inversión por nombre_cat_edad
     investment_state=df_selection.groupby(by=["nombre_cat_edad"]).count()[["tasa_morb"]]
-    fig_state=px.line(investment_state, x=investment_state.index, y="nombre_cat_edad", 
+    
+    investment_state_reset = investment_state.reset_index()    
+    fig_state=px.line(investment_state_reset, 
+                      x="index",  # Ahora 'index' es una columna normal, 
+                      y="nombre_cat_edad", 
                       orientation="v", title="<b> TASA DE MORBILIDAD POR CATEGORÍA DE EDADES </b>",
                       color_discrete_sequence=["#0083b8"]*len(investment_state), 
                       template="plotly_white",
