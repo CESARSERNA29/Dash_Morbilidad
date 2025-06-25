@@ -43,6 +43,9 @@ with open('style.css')as f:
 # df = pd.read_excel("C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tasas_Morbilidad.xlsx", sheet_name='Hoja1')
 df = pd.read_excel('Tasas_Morbilidad.xlsx', sheet_name='Hoja1')
 
+# Convirtiendo la columna Anio a Categórica:
+    # Opción 2: Convertir a categórica (más eficiente)
+df['anio'] = df['anio'].astype('category')
 
 # ======================================================================
 
