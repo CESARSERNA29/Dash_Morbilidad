@@ -130,32 +130,33 @@ def Home():
         showData=st.multiselect('Filter: ',df_selection.columns,default=["anio", "sexo", "nombre_cat_edad", "departamento", "municipio", "componente", "capitulo", "grupo", "Enfermedad_Evento", "pob10", "tasa_morb", "Tot_Eventos"])
         st.dataframe(df_selection[showData],use_container_width=True)
     # calcular los análisis:
-    total_investment = float(pd.Series(df_selection['Tot_Eventos']).sum())
+    total_investment = float(pd.Series(df_selection['Tot_Eventos']).count())
     investment_mode = float(pd.Series(df_selection['tasa_morb']).mode())
     investment_mean = float(pd.Series(df_selection['tasa_morb']).mean())
     investment_median= float(pd.Series(df_selection['tasa_morb']).median()) 
-    rating = float(pd.Series(df_selection['pob10']).sum())
+    rating = float(pd.Series(df_selection['pob10']).mean())
+    rating_percent = f"{rating:.1%}"
 
 
     total1,total2,total3,total4,total5=st.columns(5,gap='small')
     with total1:
-        st.info('Tot. Casos',icon="🎯")
-        st.metric(label="Suma Casos",value=f"{total_investment:,.0f}")
+        st.info('Total Eventos',icon="🎯")
+        st.metric(label="<Tot. Casos",value=f"US${total_investment:,.0f}")
 
     with total2:
-        st.info('Moda Tasa Morbilidad',icon="🎯")
+        st.info('Moda Tasa Morb.',icon="🎯")
         st.metric(label="Moda Morbilid.",value=f"{investment_mode:,.0f}")
 
     with total3:
-        st.info('Promedio Tasa Morbilidad',icon="🎯")
+        st.info('Prom. Tasa Morb.',icon="🎯")
         st.metric(label="Promedio Morbilid.",value=f"{investment_mean:,.0f}")
 
     with total4:
-        st.info('Mediana Tasa Morbilidad',icon="🎯")
+        st.info('Mediana Tasa Morb.',icon="🎯")
         st.metric(label="Mediana Morbilid.",value=f"{investment_median:,.0f}")
 
     with total5:
-        st.info('Proyección Poblacional',icon="🎯")
+        st.info('Proy. Poblacional',icon="🎯")
         #st.metric(label="Rating",value=numerize(rating),help=f""" Total Rating: {rating} """)
         #st.metric(label="Rating", value=numerize(rating) if rating and not pd.isna(rating) else "0",
         #          help=f""" Total Rating: {rating if rating and not pd.isna(rating) else 0} """)
@@ -163,7 +164,7 @@ def Home():
         #st.metric(label="Rating", value=numerize(rating) if rating is not None and rating != "" and str(rating) != 'nan' else "0", 
         #          help=f""" Total Rating: {rating if rating is not None else 0} """)
         
-        st.metric(label="Proy. Pobl.", value=safe_numerize(rating), help=f""" Proyección poblacional por cada 10 mil """ )
+        st.metric(label="Proy. Pobl.", value=safe_numerize(rating_percent), help=f""" Proyección poblacional por cada 10 mil """ )
         
     style_metric_cards(background_color="#FFFFFF",border_left_color="#686664",border_color="#000000",box_shadow="#F71938")
 
