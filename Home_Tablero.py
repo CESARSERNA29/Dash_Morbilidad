@@ -181,14 +181,12 @@ def graphs():
         df_selection.groupby(by=["anio"]).count()[["tasa_morb"]].sort_values(by="tasa_morb")
     )
     fig_investment=px.bar(
-       investment_by_business_type,
-       x="anio",
-       y=investment_by_business_type.index,
-       orientation="h",
-       title="<b> TASA DE MORBILIDAD POR AÑO </b>",
-       color_discrete_sequence=["#0083B8"]*len(investment_by_business_type),
-       template="plotly_white",
-    )
+        investment_by_business_type, x="anio", y=investment_by_business_type.index, 
+        orientation="h",
+        title="<b> TASA DE MORBILIDAD POR AÑO </b>",
+        color_discrete_sequence=["#0083B8"]*len(investment_by_business_type),
+        template="plotly_white",)
+    
     fig_investment.update_layout(
      plot_bgcolor="rgba(0,0,0,0)",
      font=dict(color="black"),
@@ -196,24 +194,21 @@ def graphs():
      paper_bgcolor='rgba(0, 0, 0, 0)',  # Establecer el color del fondo  en transparente
      xaxis=dict(showgrid=True, gridcolor='#cecdcd'),  # Mostrar la cuadrícula del eje x y establecer su color
      )
-
-    #gráfico de regresión lineal simple de inversión por estado
+    
+    # gráfico de regresión lineal simple de inversión por nombre_cat_edad
     investment_state=df_selection.groupby(by=["nombre_cat_edad"]).count()[["tasa_morb"]]
-    fig_state=px.line(
-       investment_state,
-       x=investment_state.index,
-       y="nombre_cat_edad",
-       orientation="v",
-       title="<b> TASA DE MORBILIDAD POR CATEGORÍA DE EDADES </b>",
-       color_discrete_sequence=["#0083b8"]*len(investment_state),
-       template="plotly_white",
+    fig_state=px.line(investment_state, x=investment_state.index, y="nombre_cat_edad", 
+                      orientation="v", title="<b> TASA DE MORBILIDAD POR CATEGORÍA DE EDADES </b>",
+                      color_discrete_sequence=["#0083b8"]*len(investment_state), 
+                      template="plotly_white",
     )
+    
     fig_state.update_layout(
-    xaxis=dict(tickmode="linear"),
-    plot_bgcolor="rgba(0,0,0,0)",
-    yaxis=(dict(showgrid=False))
-     )
-
+        xaxis=dict(tickmode="linear"), 
+        plot_bgcolor="rgba(0,0,0,0)",
+        yaxis=(dict(showgrid=False))
+        )
+    
     left,right,center=st.columns(3)
     left.plotly_chart(fig_state,use_container_width=True)
     right.plotly_chart(fig_investment,use_container_width=True)
@@ -224,9 +219,6 @@ def graphs():
       fig.update_layout(legend_title="Dptos.", legend_y=0.9)
       fig.update_traces(textinfo='percent+label', textposition='inside')
       st.plotly_chart(fig, use_container_width=True, theme=theme_plotly)
-
-
-
 
 
 # función para mostrar las ganancias actuales frente al objetivo esperado
