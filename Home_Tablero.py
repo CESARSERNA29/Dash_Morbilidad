@@ -141,8 +141,7 @@ def Home():
     total1,total2,total3,total4,total5=st.columns(5,gap='small')
     with total1:
         st.info('Total Eventos',icon="🎯")
-        st.metric(label="<Tot. Casos",value=f"US${total_investment:,.0f}")
-
+        st.metric(label="Tot. Casos", value=f"{total_investment:,.0f}".replace(",", "."))
     with total2:
         st.info('Moda Tasa Morb.',icon="🎯")
         st.metric(label="Moda Morbilid.",value=f"{investment_mode:,.0f}")
