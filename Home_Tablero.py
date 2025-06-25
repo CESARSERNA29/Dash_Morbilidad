@@ -180,16 +180,19 @@ def graphs():
     investment_by_business_type=(
         df_selection.groupby(by=["anio"]).count()[["tasa_morb"]].sort_values(by="tasa_morb")
     )
+    
     # Convertir el índice en una columna
     investment_by_business_type = investment_by_business_type.reset_index()
-    fig_investment=px.bar(
-        investment_by_business_type, 
+    
+    # CORRECCIÓN: Usar 'tasa_morb' como y, no 'index'
+    fig_investment = px.bar(
+        investment_by_business_type,
         x="anio", 
-        y="index",  # Ahora 'index' es una columna normal
-        orientation="h",
-        title="<b> TASA DE MORBILIDAD POR AÑO </b>",
-        color_discrete_sequence=["#0083B8"]*len(investment_by_business_type),
-        template="plotly_white",)
+        y="tasa_morb",  # ← Esta es la columna correcta
+        title="Análisis de Morbilidad por Año", 
+        color_discrete_sequence=["#0083B8"] * len(investment_by_business_type),
+        template="plotly_white"
+    )
     
     fig_investment.update_layout(
      plot_bgcolor="rgba(0,0,0,0)",
