@@ -20,7 +20,7 @@ import plotly.graph_objects as go
 
 # TITULO Y ESTILO DEL ENCABEZADO:
 st.set_page_config(page_title="Dashboard ", page_icon="📈", layout="wide")  
-st.header("Resumen Estadístico Enfermedades por Subsectores")
+st.header("Resumen Estadístico - Enfermedades por Subsectores")
 st.markdown("##")
  
 with open('style.css')as f:
@@ -40,10 +40,17 @@ df_subsectores = pd.read_excel('TablaMorbilidad_Subsectores.xlsx', sheet_name='H
 # Estructura jerárquica: País > Departamento > Enfermedad
 
 
-labels = df_subsectores['labels'].tolist()
-parents = df_subsectores['parents'].tolist()
-conteos = df_subsectores['conteos'].tolist()
-tasas = df_subsectores['tasas'].tolist()
+#labels = df_subsectores['labels'].tolist()
+#parents = df_subsectores['parents'].tolist()
+#conteos = df_subsectores['conteos'].tolist()
+#tasas = df_subsectores['tasas'].tolist()
+
+
+
+labels = df_subsectores['labels']
+parents = df_subsectores['parents']
+conteos = df_subsectores['conteos']
+tasas = df_subsectores['tasas']
 
 
 
