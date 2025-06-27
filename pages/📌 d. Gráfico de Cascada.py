@@ -1,6 +1,4 @@
 
-
-
 # Cargando las Librerías:
 import streamlit as st
 import pandas as pd
@@ -27,29 +25,68 @@ except FileNotFoundError:
     st.warning("Archivo style.css no encontrado. Continuando sin estilos personalizados.")
 
 # LLAMANDO EL DATAFRAME:
-
 # Importando la tabla agregada con los resúmenes de las variables:
-#df_GrupoEnfer = pd.read_excel(r'C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
 df_GrupoEnfer = pd.read_excel('Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
 
 # Cambiar round por parte entera
 df_GrupoEnfer["TotCasos"] = df_GrupoEnfer["TotCasos"].astype(int)
 df_GrupoEnfer["Tot_pob10"] = df_GrupoEnfer["Tot_pob10"].astype(int)
+
+# =====================================
+# FILTRO POR DEPARTAMENTO:
+# Asumiendo que existe una columna 'departamento' en el DataFrame
+# Si la columna tiene otro nombre, cambia 'departamento' por el nombre correcto
+
+# Verificar si existe la columna departamento
+if 'departamento' in df_GrupoEnfer.columns:
+    departamentos_disponibles = ['Todos los Dptos'] + sorted(df_GrupoEnfer['departamento'].unique().tolist())
     
-GrupoEnf = df_GrupoEnfer['grupo'].tolist()
-y_list = df_GrupoEnfer['TotCasos'].tolist()
+    # Crear el selectbox para filtrar por departamento
+    departamento_seleccionado = st.selectbox(
+        "Selecciona el Departamento:",
+        options=departamentos_disponibles,
+        index=0
+    )
+    
+    # Filtrar los datos según la selección
+    if departamento_seleccionado == 'Todos los Dptos':
+        # Agregar datos por grupo para todos los departamentos
+        df_filtrado = df_GrupoEnfer.groupby('grupo').agg({
+            'TotCasos': 'sum',
+            'Tot_pob10': 'sum'
+        }).reset_index()
+        titulo_grafico = "Todos los Departamentos"
+    else:
+        # Filtrar por departamento específico
+        df_filtrado = df_GrupoEnfer[df_GrupoEnfer['departamento'] == departamento_seleccionado].copy()
+        titulo_grafico = departamento_seleccionado
+else:
+    st.error("La columna 'departamento' no existe en el DataFrame. Por favor verifica el nombre correcto de la columna.")
+    st.write("Columnas disponibles:", df_GrupoEnfer.columns.tolist())
+    # Usar todos los datos si no existe la columna departamento
+    df_filtrado = df_GrupoEnfer.copy()
+    titulo_grafico = "Datos Generales"
+
+# =====================================
+# PREPARAR DATOS PARA EL GRÁFICO:
+    
+GrupoEnf = df_filtrado['grupo'].tolist()
+y_list = df_filtrado['TotCasos'].tolist()
 x_list = GrupoEnf
 Total = 'Total'
 x_list = GrupoEnf + ['Total']  # Esta línea agrega el valor de la variable total al final de la lista x_list.
 total = int(sum(y_list))  # Cambiar round por int
 y_list.append(total)  # Esta línea agrega el valor de la variable total al final de la lista y_list.
 
+# Preparar texto para las etiquetas
 text_list = []
 for index, item in enumerate(y_list):
     if item > 0 and index != 0 and index != len(y_list) - 1:
         text_list.append(f'+{str(y_list[index])}')
     else:
         text_list.append(str(y_list[index]))
+
+# Aplicar formato de color a las etiquetas
 for index, item in enumerate(text_list):
     if item[0] == '+' and index != 0 and index != len(text_list) - 1:
         text_list[index] = '<span style="color:#2ca02c">' + text_list[index] + '</span>'
@@ -58,8 +95,11 @@ for index, item in enumerate(text_list):
     if index == 0 or index == len(text_list) - 1:
         text_list[index] = '<b>' + text_list[index] + '</b>'
 
+# Crear líneas de cuadrícula
 dict_list = []
-for i in range(0, 1200, 200):
+max_value = max(y_list) if y_list else 1200
+step = max(200, int(max_value / 6))  # Ajustar el paso según el valor máximo
+for i in range(0, int(max_value * 1.2), step):
     dict_list.append(dict(
             type="line",
             line=dict(
@@ -68,10 +108,13 @@ for i in range(0, 1200, 200):
             ),
             x0=-0.5,
             y0=i,
-            x1=6,
+            x1=len(x_list),
             y1=i,
             line_width=1,
             layer="below"))
+
+# =====================================
+# CREAR EL GRÁFICO WATERFALL:
 
 # Método alternativo: Crear el gráfico con absolute para el total
 # Modificar la lista de medidas para que el Total sea absolute
@@ -82,7 +125,7 @@ measures = ["absolute"] + ["relative"] * (len(y_list) - 2) + ["absolute"]
 y_list_modified[-1] = sum(y_list[:-1])  # El total real sin duplicar
 
 fig = go.Figure(go.Waterfall(
-    name = "e-commerce", orientation = "v",
+    name = "prevalencia", orientation = "v",
     measure = measures,
     x = x_list,
     y = y_list_modified,
@@ -97,9 +140,13 @@ fig = go.Figure(go.Waterfall(
              }
 ))
 
+# Actualizar el layout del gráfico
 fig.update_layout(
-    title =
-        {'text':'<b>Waterfall Chart</b><br><span style="color:#666666">Prevalencia de Enfermedades Mentales de 2013 a 2014</span>'},
+    title = {
+        'text': f'<b>Waterfall Chart - {titulo_grafico}</b><br><span style="color:#666666">Prevalencia de Enfermedades Mentales de 2013 a 2014</span>',
+        'x': 0.5,
+        'xanchor': 'center'
+    },
     showlegend = False,
     height=650,
     font={
@@ -116,5 +163,36 @@ fig.update_layout(
 fig.update_xaxes(tickangle=-45, tickfont=dict(family='Open Sans, light', color='black', size=14))
 fig.update_yaxes(tickangle=0, tickfont=dict(family='Open Sans, light', color='black', size=14))
 
-# CAMBIO PRINCIPAL: Usar st.plotly_chart() en lugar de fig.show()
+# =====================================
+# MOSTRAR EL GRÁFICO:
 st.plotly_chart(fig, use_container_width=True)
+
+# =====================================
+# INFORMACIÓN ADICIONAL (OPCIONAL):
+if 'departamento' in df_GrupoEnfer.columns:
+    st.markdown("---")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric(
+            label="Total de Casos",
+            value=f"{total:,}".replace(",", ".")
+        )
+    
+    with col2:
+        if departamento_seleccionado != 'Todos los Dptos':
+            st.metric(
+                label="Departamento Seleccionado",
+                value=departamento_seleccionado
+            )
+        else:
+            st.metric(
+                label="Departamentos Incluidos",
+                value=len(df_GrupoEnfer['departamento'].unique())
+            )
+    
+    with col3:
+        st.metric(
+            label="Grupos de Enfermedades",
+            value=len(GrupoEnf)
+        )
