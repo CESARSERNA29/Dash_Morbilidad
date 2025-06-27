@@ -27,8 +27,8 @@ except FileNotFoundError:
 # LLAMANDO EL DATAFRAME:
 
 # Importando la tabla agregada con los resúmenes de las variables:
-df_GrupoEnfer = pd.read_excel(r'C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
-#df_GrupoEnfer = pd.read_excel('Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
+#df_GrupoEnfer = pd.read_excel(r'C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
+df_GrupoEnfer = pd.read_excel('Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
 
 # Cambiar round por parte entera
 df_GrupoEnfer["TotCasos"] = df_GrupoEnfer["TotCasos"].astype(int)
