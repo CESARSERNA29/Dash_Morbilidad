@@ -41,7 +41,7 @@ with open('style.css')as f:
 # cargar archivo Excel | comente esta línea cuando obtenga datos de MySQL:
 
 # df = pd.read_excel("C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tasas_Morbilidad.xlsx", sheet_name='Hoja1')
-df = pd.read_excel('Tasas_Morbilidad.xlsx', sheet_name='Hoja1')
+df = pd.read_excel('Tasas_Morbilidad_25MB.xlsx', sheet_name='Hoja1')
 
 # Convirtiendo la columna Anio a Categórica:
     # Opción 2: Convertir a categórica (más eficiente)
@@ -146,8 +146,8 @@ def Home():
         st.metric(label="Tot. Dptos.",value=f"{investment_mode:,.0f}")
 
     with total3:
-        st.info('Tot. Municipios',icon="🎯")
-        st.metric(label="Tot. Munic.",value=f"{investment_mean:,.0f}")
+        st.info('Tot. Municip.',icon="🎯")
+        st.metric(label="Tot. Municip.",value=f"{investment_mean:,.0f}")
 
     with total4:
         st.info('Tot. Grupo',icon="🎯")
