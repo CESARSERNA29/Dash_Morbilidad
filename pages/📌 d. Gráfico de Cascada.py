@@ -1,4 +1,6 @@
 
+
+
 # Cargando las Librerías:
 import streamlit as st
 import pandas as pd
@@ -27,8 +29,8 @@ except FileNotFoundError:
 # LLAMANDO EL DATAFRAME:
 
 # Importando la tabla agregada con los resúmenes de las variables:
-#df_GrupoEnfer = pd.read_excel(r'C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
-df_GrupoEnfer = pd.read_excel('Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
+df_GrupoEnfer = pd.read_excel(r'C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
+#df_GrupoEnfer = pd.read_excel('Tabla_Grafico_Cascada.xlsx', sheet_name='Hoja1')
 
 # Cambiar round por parte entera
 df_GrupoEnfer["TotCasos"] = df_GrupoEnfer["TotCasos"].astype(int)
@@ -71,11 +73,19 @@ for i in range(0, 1200, 200):
             line_width=1,
             layer="below"))
 
+# Método alternativo: Crear el gráfico con absolute para el total
+# Modificar la lista de medidas para que el Total sea absolute
+y_list_modified = y_list.copy()
+measures = ["absolute"] + ["relative"] * (len(y_list) - 2) + ["absolute"]
+
+# Para el total, usar el valor real en lugar del acumulado
+y_list_modified[-1] = sum(y_list[:-1])  # El total real sin duplicar
+
 fig = go.Figure(go.Waterfall(
     name = "e-commerce", orientation = "v",
-    measure = ["absolute", "relative", "relative", "relative", "relative", "relative", "total"],
+    measure = measures,
     x = x_list,
-    y = y_list,
+    y = y_list_modified,
     text = text_list,
     textposition = "outside",
     connector = {"line":{"color":'rgba(0,0,0,0)'}},
