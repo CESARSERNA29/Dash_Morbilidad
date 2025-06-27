@@ -142,7 +142,7 @@ def Home():
         st.info('Tot. Eventos',icon="🎯")
         st.metric(label="Tot. Casos", value=f"{total_investment:,.0f}".replace(",", "."))
     with total2:
-        st.info('Tot. Deptos.',icon="🎯")
+        st.info('Tot. Dptos.',icon="🎯")
         st.metric(label="Tot. Dptos.",value=f"{investment_mode:,.0f}")
 
     with total3:
