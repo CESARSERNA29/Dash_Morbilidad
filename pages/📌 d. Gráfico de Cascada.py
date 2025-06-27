@@ -159,12 +159,13 @@ fig.update_layout(
     font={
         'family':'Open Sans, light',
         'color':'black',
-        'size':14     # Tamaño de las cifras
+        'size':14
     },
     plot_bgcolor='rgba(0,0,0,0)',
     yaxis_title="Casos",
     shapes=dict_list
 )
+
 
 # Fuente de las etiquetas:
 fig.update_xaxes(tickangle=-45, tickfont=dict(family='Open Sans, light', color='black', size=14))
