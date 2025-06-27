@@ -30,6 +30,9 @@ except FileNotFoundError:
 try:
     # Importando la tabla agregada con los resúmenes de las variables:
     df_subsectores = pd.read_excel('TablaMorbilidad_Subsectores.xlsx', sheet_name='Hoja1')
+    df_subsectores["conteos"] = round(df_subsectores["conteos"], 0)
+    df_subsectores["tasas"] = round(df_subsectores["tasas"], 1)
+
     
     # Estructura jerárquica: País > Departamento > Enfermedad
     labels = df_subsectores['labels'].tolist()
