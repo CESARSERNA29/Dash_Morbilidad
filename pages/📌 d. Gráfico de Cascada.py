@@ -163,7 +163,9 @@ fig.update_layout(
     },
     plot_bgcolor='rgba(0,0,0,0)',
     yaxis_title="Casos",
-    shapes=dict_list
+    shapes=dict_list,
+    xaxis=dict(showgrid=False),
+    yaxis=dict(showgrid=False)
 )
 
 
