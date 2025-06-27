@@ -142,7 +142,7 @@ def Home():
         st.info('Tot. Eventos',icon="🎯")
         st.metric(label="Tot. Casos", value=f"{total_investment:,.0f}".replace(",", "."))
     with total2:
-        st.info('Tot. Departamentos',icon="🎯")
+        st.info('Tot. Deptos.',icon="🎯")
         st.metric(label="Tot. Dptos.",value=f"{investment_mode:,.0f}")
 
     with total3:
@@ -151,10 +151,10 @@ def Home():
 
     with total4:
         st.info('Tot. Grupo',icon="🎯")
-        st.metric(label="Grup. Enferm.",value=f"{investment_median:,.0f}")
+        st.metric(label="Tot. Grupo",value=f"{investment_median:,.0f}")
 
     with total4:
-        st.info('Tot. Enfermedades',icon="🎯")
+        st.info('Tot. Enferm.',icon="🎯")
         st.metric(label="Tot. Enferm.",value=f"{investment_median:,.0f}")
         
 
