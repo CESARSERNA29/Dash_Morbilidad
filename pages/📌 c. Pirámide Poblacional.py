@@ -158,3 +158,67 @@ try:
             st.pyplot(fig)
     
     # =====================================
+    # INFORMACIÓN ADICIONAL
+    
+    # Mostrar estadísticas
+    df_filtered = df.copy()
+    if dpto_seleccionado != "Todos":
+        df_filtered = df_filtered[df_filtered["departamento"] == dpto_seleccionado]
+    if año_seleccionado != "Todos":
+        df_filtered = df_filtered[df_filtered["anio"] == año_seleccionado]
+    
+    total_poblacion = df_filtered[["Hombres", "Mujeres"]].sum().sum()
+    total_hombres = df_filtered["Hombres"].sum()
+    total_mujeres = df_filtered["Mujeres"].sum()
+    
+    st.markdown("---")
+    st.subheader("Estadísticas Resumidas")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Población Total", f"{total_poblacion:,.0f}".replace(',', '.'))
+    
+    with col2:
+        st.metric("Hombres", f"{total_hombres:,.0f}".replace(',', '.'), 
+                 f"{(total_hombres/total_poblacion*100):.1f}%")
+    
+    with col3:
+        st.metric("Mujeres", f"{total_mujeres:,.0f}".replace(',', '.'), 
+                 f"{(total_mujeres/total_poblacion*100):.1f}%")
+
+except FileNotFoundError:
+    st.error("❌ Archivo 'Poblacion_prm.csv' no encontrado. Verifica que el archivo esté en el directorio correcto.")
+    
+    # Mostrar datos de ejemplo
+    st.info("📊 Mostrando pirámide de ejemplo:")
+    
+    # Crear datos de ejemplo
+    np.random.seed(42)
+    rangos_edad = ['0 - 4','5 - 9','10 - 14','15 - 19','20 - 24','25 - 29' ,'30 - 34', '35 - 39',
+                   '40 - 44', '45 - 49','50 - 54', '55 - 59', '60 - 64', '65 - 69', '70 - 74' ,'75 - 79', '80 - 84', '85 - 89']
+    
+    ejemplo_data = []
+    for rango in rangos_edad:
+        hombres = np.random.randint(50000, 150000)
+        mujeres = np.random.randint(50000, 150000)
+        ejemplo_data.append({
+            'anio': 2023,
+            'region': 'Ejemplo',
+            'departamento': 'Ejemplo',
+            'rango_edad': rango,
+            'Hombres': hombres,
+            'Mujeres': mujeres,
+            'Total': hombres + mujeres
+        })
+    
+    df_ejemplo = pd.DataFrame(ejemplo_data)
+    fig_ejemplo = graficar_piramide(df_ejemplo, "Ejemplo", 2023)
+    st.pyplot(fig_ejemplo)
+
+except Exception as e:
+    st.error(f"❌ Error al cargar los datos: {str(e)}")
+    st.info("Verifica que el archivo CSV tenga las columnas correctas: anio, region, departamento, rango_edad, sexo, pob")
+
+
+
