@@ -78,22 +78,29 @@ x_list = GrupoEnf + ['Total']  # Esta línea agrega el valor de la variable tota
 total = int(sum(y_list))  # Cambiar round por int
 y_list.append(total)  # Esta línea agrega el valor de la variable total al final de la lista y_list.
 
-# Preparar texto para las etiquetas
+# Función para formato con punto de miles
+def formato_miles(valor):
+    return f"{valor:,.0f}".replace(",", ".")
+
+# Preparar texto con formato miles y color HTML
 text_list = []
 for index, item in enumerate(y_list):
-    if item > 0 and index != 0 and index != len(y_list) - 1:
-        text_list.append(f'+{str(y_list[index])}')
-    else:
-        text_list.append(str(y_list[index]))
+    texto = formato_miles(item)
+    if index != 0 and index != len(y_list) - 1:
+        texto = f'+{texto}'
+    text_list.append(texto)
+
 
 # Aplicar formato de color a las etiquetas
 for index, item in enumerate(text_list):
-    if item[0] == '+' and index != 0 and index != len(text_list) - 1:
-        text_list[index] = '<span style="color:#2ca02c">' + text_list[index] + '</span>'
-    elif item[0] == '-' and index != 0 and index != len(text_list) - 1:
-        text_list[index] = '<span style="color:#d62728">' + text_list[index] + '</span>'
+    if item.startswith('+') and index != 0 and index != len(text_list) - 1:
+        text_list[index] = f'<span style="color:#2ca02c">{item}</span>'
+    elif item.startswith('-') and index != 0 and index != len(text_list) - 1:
+        text_list[index] = f'<span style="color:#d62728">{item}</span>'
     if index == 0 or index == len(text_list) - 1:
-        text_list[index] = '<b>' + text_list[index] + '</b>'
+        text_list[index] = f'<b>{item}</b>'
+
+
 
 # Crear líneas de cuadrícula
 dict_list = []
