@@ -41,7 +41,7 @@ with open('style.css')as f:
 # cargar archivo Excel | comente esta línea cuando obtenga datos de MySQL:
 
 # df = pd.read_excel("C:/Users/cesar/Downloads/TABLERO_STREAMLIT_DASHBOARD/DASHBOARD_Morbilidad_DESPLIEGUE/Tasas_Morbilidad.xlsx", sheet_name='Hoja1')
-df = pd.read_excel('Tasas_Morbilidad.xlsx', sheet_name='Hoja1')
+df = pd.read_excel('Tasas_Morbilidad_25MB.xlsx', sheet_name='Hoja1')
 
 # Convirtiendo la columna Anio a Categórica:
     # Opción 2: Convertir a categórica (más eficiente)
@@ -131,9 +131,8 @@ def Home():
         st.dataframe(df_selection[showData],use_container_width=True)
     # calcular los análisis:
     total_investment = float(pd.Series(df_selection['Tot_Eventos']).sum())
-    investment_mode = float(pd.Series(df_selection['departamento']).nunique())
-    investment_mode = float(pd.Series(df_selection['municipio']).nunique())
-    investment_mean = float(pd.Series(df_selection['grupo']).nunique())
+    investment_mode1 = float(pd.Series(df_selection['departamento']).nunique())
+    investment_mode2 = float(pd.Series(df_selection['municipio']).nunique())
     investment_median= float(pd.Series(df_selection['Enfermedad_Evento']).nunique()) 
 
 
@@ -143,11 +142,11 @@ def Home():
         st.metric(label="Tot. Casos", value=f"{total_investment:,.0f}".replace(",", "."))
     with total2:
         st.info('Tot. Dptos.',icon="🎯")
-        st.metric(label="Tot. Dptos.",value=f"{investment_mode:,.0f}")
+        st.metric(label="Tot. Dptos.",value=f"{investment_mode1:,.0f}")
 
     with total3:
         st.info('Tot. Municip.',icon="🎯")
-        st.metric(label="Tot. Municip.",value=f"{investment_mean:,.0f}")
+        st.metric(label="Tot. Municip.",value=f"{investment_mode2:,.0f}")
 
     with total4:
         st.info('Tot. Grupo',icon="🎯")
