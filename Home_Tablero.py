@@ -151,10 +151,6 @@ def Home():
     with total4:
         st.info('Tot. Grupo',icon="🎯")
         st.metric(label="Tot. Grupo",value=f"{investment_median:,.0f}")
-
-    with total4:
-        st.info('Tot. Enferm.',icon="🎯")
-        st.metric(label="Tot. Enferm.",value=f"{investment_median:,.0f}")
         
 
     #variable distribution Histogram
