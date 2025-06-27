@@ -45,13 +45,13 @@ try:
                      for l, v, t in zip(labels, conteos, tasas)]
     
     # Sunburst plot
-    colors = ['#2A3180', '#39A8E0', '#F28F1C', '#E5352B', '#662681', '#009640', '#9D9D9C']
+    #colors = ['#2A3180', '#39A8E0', '#F28F1C', '#E5352B', '#662681', '#009640', '#9D9D9C']
     fig = go.Figure(go.Sunburst(
         labels=custom_labels,
         parents=parents,
         values=conteos,
-        branchvalues="remainder",  # ahora los padres no necesitan tener suma directa
-        marker=dict(colors=colors * (len(labels) // len(colors) + 1))  # Repetir colores si son necesarios
+        branchvalues="remainder" #,  # ahora los padres no necesitan tener suma directa
+        #marker=dict(colors=colors * (len(labels) // len(colors) + 1))  # Repetir colores si son necesarios
     ))
     
     # Agregando el Titulo (Elegante)
