@@ -139,22 +139,22 @@ def Home():
 
     total1,total2,total3,total4,total5=st.columns(5,gap='small')
     with total1:
-        st.info('Total Eventos',icon="🎯")
+        st.info('Tot. Eventos',icon="🎯")
         st.metric(label="Tot. Casos", value=f"{total_investment:,.0f}".replace(",", "."))
     with total2:
-        st.info('Total Departamentos',icon="🎯")
+        st.info('Tot. Departamentos',icon="🎯")
         st.metric(label="Tot. Dptos.",value=f"{investment_mode:,.0f}")
 
     with total3:
-        st.info('Total Municipios',icon="🎯")
+        st.info('Tot. Municipios',icon="🎯")
         st.metric(label="Tot. Munic.",value=f"{investment_mean:,.0f}")
 
     with total4:
-        st.info('Total Grupo',icon="🎯")
+        st.info('Tot. Grupo',icon="🎯")
         st.metric(label="Grup. Enferm.",value=f"{investment_median:,.0f}")
 
     with total4:
-        st.info('Total Enfermedades',icon="🎯")
+        st.info('Tot. Enfermedades',icon="🎯")
         st.metric(label="Tot. Enferm.",value=f"{investment_median:,.0f}")
         
 
