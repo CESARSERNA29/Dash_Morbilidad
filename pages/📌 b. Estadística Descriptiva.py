@@ -16,7 +16,7 @@ import plotly.graph_objects as go
 # =====================================
 # TITULO Y ESTILO DEL ENCABEZADO:
 st.set_page_config(page_title="Dashboard ", page_icon="📈", layout="wide")  
-st.header("Resumen Estadístico - Enfermedades por Subsectores")
+st.header("Resumen Gráfico Exploratorio Multidimensional")
 st.markdown("##")
  
 # Cargar CSS si existe el archivo
@@ -31,7 +31,7 @@ try:
     # Importando la tabla agregada con los resúmenes de las variables:
     df_subsectores = pd.read_excel('TablaMorbilidad_Subsectores.xlsx', sheet_name='Hoja1')
     df_subsectores["conteos"] = round(df_subsectores["conteos"], 0)
-    df_subsectores["tasas"] = round(df_subsectores["tasas"], 1)
+    df_subsectores["tasas"] = round(df_subsectores["tasas"], 1) 
 
     
     # Estructura jerárquica: País > Departamento > Enfermedad
@@ -45,11 +45,13 @@ try:
                      for l, v, t in zip(labels, conteos, tasas)]
     
     # Sunburst plot
+    colors = ['#2A3180', '#39A8E0', '#F28F1C', '#E5352B', '#662681', '#009640', '#9D9D9C']
     fig = go.Figure(go.Sunburst(
         labels=custom_labels,
         parents=parents,
         values=conteos,
-        branchvalues="remainder"  # ahora los padres no necesitan tener suma directa
+        branchvalues="remainder",  # ahora los padres no necesitan tener suma directa
+        marker=dict(colors=colors * (len(labels) // len(colors) + 1))  # Repetir colores si son necesarios
     ))
     
     # Agregando el Titulo (Elegante)
@@ -65,6 +67,8 @@ try:
         margin=dict(t=80, l=10, r=10, b=10)
     )
     
+    
+    
     # ¡AQUÍ ESTÁ LA LÍNEA QUE FALTABA!
     # Mostrar el gráfico en Streamlit
     st.plotly_chart(fig, use_container_width=True)
@@ -74,50 +78,7 @@ except FileNotFoundError:
 except Exception as e:
     st.error(f"Error al cargar los datos: {str(e)}")
     
-    # Mostrar datos de ejemplo para verificar que el código funciona
-    st.info("Mostrando gráfico de ejemplo:")
-    
-    # Datos de ejemplo
-    sample_data = {
-        'labels': ['Colombia', 'Bogotá', 'Antioquia', 'Valle', 'Diabetes', 'Hipertensión', 'Asma'],
-        'parents': ['', 'Colombia', 'Colombia', 'Colombia', 'Bogotá', 'Antioquia', 'Valle'],
-        'conteos': [0, 0, 0, 0, 1500, 2000, 800],
-        'tasas': [0, 0, 0, 0, 15.5, 25.2, 12.8]
-    }
-    
-    labels_sample = sample_data['labels']
-    parents_sample = sample_data['parents']
-    conteos_sample = sample_data['conteos']
-    tasas_sample = sample_data['tasas']
-    
-    custom_labels_sample = [f"{l}<br>Casos: {v}<br>Tasa: {t:.1f}/100k" if v != 0 else l 
-                           for l, v, t in zip(labels_sample, conteos_sample, tasas_sample)]
-    
-    fig_sample = go.Figure(go.Sunburst(
-        labels=custom_labels_sample,
-        parents=parents_sample,
-        values=conteos_sample,
-        branchvalues="remainder"
-    ))
-    
-    fig_sample.update_layout(
-        title={
-            "text": "Ejemplo - Enfermedades más Frecuentes por Departamento",
-            "y": 0.95, 
-            "x": 0.5, 
-            "xanchor": "center", 
-            "yanchor": "top", 
-            "font": dict(size=24, family="Arial", color="black")
-        }, 
-        margin=dict(t=80, l=10, r=10, b=10)
-    )
-    
-    st.plotly_chart(fig_sample, use_container_width=True)
-
-
-
-
-
+ 
 
 
 
