@@ -41,8 +41,8 @@ try:
     tasas = df_subsectores['tasas'].tolist()
     
     # Etiquetas personalizadas con conteo y tasa
-    custom_labels = [f"{l}<br>Casos: {v}<br>Tasa: {t:.1f}/100k" if v != 0 else l 
-                     for l, v, t in zip(labels, conteos, tasas)]
+    custom_labels = [f"{l}<br>Casos: {v:,.0f}<br>Tasa: {t:.1f}/100k".replace(',', '.') if v != 0 else l 
+                 for l, v, t in zip(labels, conteos, tasas)]
     
     # Sunburst plot
     #colors = ['#2A3180', '#39A8E0', '#F28F1C', '#E5352B', '#662681', '#009640', '#9D9D9C']
