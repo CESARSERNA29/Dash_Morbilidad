@@ -28,7 +28,27 @@ import plotly.graph_objs as go
 # from query import *
 
 st.set_page_config(page_title="Dashboard",page_icon="🌍",layout="wide")
-st.header("MORBILIDAD:  Tratamiento Estadístico, KPI y Tendencias")
+#st.header("MORBILIDAD:  Tratamiento Estadístico, KPI y Tendencias")
+
+st.markdown("""
+        <h3 style='text-align: center; color: #333333;'>MORBILIDAD:  Tratamiento Estadístico, KPI y Tendencias </h3>
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+    """, unsafe_allow_html=True)
+
+st.markdown("""
+        <div style="text-align: justify; font-size: 18px; color: #444444;">
+        La morbilidad se refiere a la frecuencia o proporción de personas que presentan una enfermedad o condición específica dentro de una población determinada. Desde un enfoque estadístico, el análisis de la morbilidad permite identificar patrones, tendencias y distribuciones geográficas o demográficas de las enfermedades, lo cual es clave para la planificación en salud pública.  
+        Mediante indicadores como el número de casos absolutos, la tasa de morbilidad (por cada 10.000 o 100.000 habitantes) o la prevalencia y la incidencia, se pueden evaluar los grupos más afectados, detectar zonas de mayor vulnerabilidad y priorizar recursos. Estas métricas también permiten comparar el comportamiento de enfermedades a lo largo del tiempo o entre regiones, facilitando la toma de decisiones basadas en evidencia.  
+        El análisis estadístico de la morbilidad es, por tanto, una herramienta fundamental para monitorear el estado de salud de una población y diseñar intervenciones efectivas.
+        </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("##")
+
+
+
+
+
 
 # Todos los gráficos se personalizan usando CSS , no Streamlit. 
 theme_plotly = None 
@@ -310,7 +330,9 @@ header {visibility:hidden;}
 
 
 st.markdown("##")
+st.markdown("##")
 
+st.markdown("##")
 
 
 
